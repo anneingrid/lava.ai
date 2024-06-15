@@ -1,70 +1,70 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { useAppContext } from '@/components/provider';
+import React, { useState } from 'react';
+import { View, Button, Text, FlatList, StyleSheet, ScrollView } from 'react-native';
+import { Link } from 'expo-router';
+import { Divider } from 'react-native-paper';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-export default function HomeScreen() {
+export default function Index() {
+  const { box1, box2, box3, instanteAtual, incrementarInstanteAtual } = useAppContext();
+  const incrementarInstante = () => {
+    incrementarInstanteAtual()
+  };
+  const filaStyle = (boxLength) => {
+    return boxLength >= 5 ? styles.filaCheia : styles.filaNormal;
+  };
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
-}
+    <View style={styles.container}>
+      <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Instante: {instanteAtual}</Text>
+      <Divider />
+      <View style={styles.boxContainer}>
+        <Link href={'/box1'}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Box 1</Text>
+        </Link>
 
+        <Text style={filaStyle(box1.length)}>Fila: {box1.length} veículos</Text>
+        <Divider />
+      </View>
+      <View style={styles.boxContainer}>
+        <Link href={'/box2'}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Box 2</Text>
+        </Link>
+
+        <Text style={filaStyle(box2.length)}>Fila: {box2.length} veículos</Text>
+        <Divider />
+      </View>
+      <View style={styles.boxContainer}>
+        <Link href={'/box3'}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Box 3</Text>
+        </Link>
+
+
+        <Text style={filaStyle(box2.length)}>Fila: {box2.length} veículos</Text>
+        <Divider />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button title="Incrementar Instante Atual" onPress={incrementarInstante} />
+      </View>
+
+    </View>
+  )
+}
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: {
+    flex: 1,
+
     alignItems: 'center',
-    gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  boxContainer: {
+
+    marginBottom: 20,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  buttonContainer: {
+    marginTop: 20,
+  },
+  filaNormal: {
+    color: 'black',
+  },
+  filaCheia: {
+    color: 'red',
   },
 });
